@@ -86,7 +86,7 @@ func New(factory Factory, options *Options) (*Server, error) {
 // Run starts the main process of the Server.
 // The cancelation of ctx will shutdown the server immediately with aborting
 // existing connections. Use WithGracefullContext() to support gracefull shutdown.
-func (server *Server) Run(ctx context.Context, options ...RunOption) error {
+func (server *Server) Run(ctx context.Context, options ...RunOption, url_path string) error {
 	cctx, cancel := context.WithCancel(ctx)
 	opts := &RunOptions{gracefullCtx: context.Background()}
 	for _, opt := range options {
@@ -95,7 +95,7 @@ func (server *Server) Run(ctx context.Context, options ...RunOption) error {
 
 	counter := newCounter(time.Duration(server.options.Timeout) * time.Second)
 
-	path := "/"
+	path := url_path
 	if server.options.EnableRandomUrl {
 		path = "/" + randomstring.Generate(server.options.RandomUrlLength) + "/"
 	}

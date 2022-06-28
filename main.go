@@ -99,7 +99,7 @@ func main() {
 
 		errs := make(chan error, 1)
 		go func() {
-			errs <- srv.Run(ctx, server.WithGracefullContext(gCtx))
+			errs <- srv.Run(ctx, server.WithGracefullContext(gCtx), "/")
 		}()
 		err = waitSignals(errs, cancel, gCancel)
 
